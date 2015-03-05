@@ -11,9 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -26,7 +24,7 @@ public class FiatBitoinUriServlet extends HttpServlet {
     private static final Pattern URL_ADDRESS = Pattern.compile("^/?([13][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{25,33})/?$");
     private static final Function<Map.Entry<String, String>, String> ENTRY_FORMAT = new Function<Map.Entry<String,String>, String>() {
         @Override public String apply(Map.Entry<String, String> input) {
-            return String.format("%s=%s", input.getKey(), encode(input));
+            return String.format("%s=%s", input.getKey(), Utils.urlEncode(input.getValue()));
         } };
 
     private Prices prices = Prices.instance();
@@ -39,9 +37,7 @@ public class FiatBitoinUriServlet extends HttpServlet {
         @SuppressWarnings("unchecked")
         final Map<String, String> params = translate(req.getParameterMap());
 
-        final String uri = String.format("bitcoin:%s?%s", address, format(params));
-        resp.setHeader("Location", uri);
-        resp.setStatus(301);
+        Utils.redirect(resp, String.format("bitcoin:%s?%s", address, format(params)));
     }
 
     static String getAddress(String pathInfo) {
@@ -87,11 +83,4 @@ public class FiatBitoinUriServlet extends HttpServlet {
         return AMPERSAND.join(Iterables.transform(map.entrySet(), ENTRY_FORMAT));
     }
 
-    private static String encode(Map.Entry<String, String> input) {
-        try {
-            return URLEncoder.encode(input.getValue(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("This shouldn't happen, check the source code.", e);
-        }
-    }
 }

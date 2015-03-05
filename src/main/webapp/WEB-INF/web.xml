@@ -9,6 +9,10 @@
     <servlet-name>reloadPricesServlet</servlet-name>
     <servlet-class>com.mmazi.fbu.ReloadPricesServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>qrCodeServlet</servlet-name>
+    <servlet-class>com.mmazi.fbu.QRCodeServlet</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>priceTranslator</servlet-name>
@@ -17,5 +21,9 @@
   <servlet-mapping>
     <servlet-name>reloadPricesServlet</servlet-name>
     <url-pattern>/cron/reload-prices/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>qrCodeServlet</servlet-name>
+    <url-pattern>/qr.png/*</url-pattern>
   </servlet-mapping>
 </web-app>
