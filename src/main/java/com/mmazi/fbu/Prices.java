@@ -73,10 +73,12 @@ public class Prices {
     }
 
     public void reloadAll() throws IOException {
+        log.debug("Prices.reloadAll");
         for (String base : priceCache.keySet()) {
             if (base.equals("BTC")) {
                 final Map<String, BigDecimal> prices = priceCache.get(base);
                 for (String counter : prices.keySet()) {
+                    log.debug("Reloading exchange rates for {}/{}", base, counter);
                     reloadBTC(counter);
                 }
             }
