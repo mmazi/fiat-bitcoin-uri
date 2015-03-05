@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This is ignored in dev server. Cron job urls need to be triggered manually. -->
+<cronentries>
+    <cron>
+        <url>/cron/reload-prices</url>
+        <description>Reload exchange rates for all cached currencies</description>
+        <schedule>every 1 minutes</schedule>
+    </cron>
+</cronentries>

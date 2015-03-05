@@ -52,7 +52,7 @@ public class FiatBitoinUriServlet extends HttpServlet {
         return matcher.group(1);
     }
 
-    Map<String, String> translate(Map<String, Object> originals) {
+    Map<String, String> translate(Map<String, Object> originals) throws IOException {
         final Map<String, String> translated = new LinkedHashMap<>(originals.size());
         String currency = null;
         Double amount = null;
